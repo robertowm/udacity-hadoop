@@ -1,0 +1,3 @@
+hadoop fs -rm -R output/lesson_3/part_2/q3
+hs mapper-q3.py reducer-q3.py input/access_log output/lesson_3/part_2/q3
+hadoop fs -cat output/lesson_3/part_2/q3/part-00000 | ./max.py
