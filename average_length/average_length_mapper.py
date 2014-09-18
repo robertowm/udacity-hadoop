@@ -2,11 +2,6 @@
 
 import sys
 import csv
-from datetime import datetime
-
-## Convert a string to datetime
-def toDatetime(date): 
-  return datetime.strptime(date[:-3], '%Y-%m-%d %H:%M:%S.%f')
 
 reader = csv.reader(sys.stdin, delimiter="\t")
 
