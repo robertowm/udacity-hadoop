@@ -26,11 +26,11 @@ class ControlData:
     # then update max count and init the list of max hours
     if self.accCount > self.maxCount:
       self.maxCount = self.accCount
-      self.maxHours[:] = [self.hour]
+      self.maxHours[:] = [int(self.hour)]
     # Else if accumulated count is equals to found max count
     # then append a new hour to list of max hours
     elif self.accCount == self.maxCount:
-      self.maxHours.append(self.hour)
+      self.maxHours.append(int(self.hour))
 
     self.initKeys(key, hour, count)
 
@@ -41,7 +41,7 @@ class ControlData:
       self.printContent()
       self.key = key
       self.maxCount = 0
-      self.maxHours[:] = []
+      self.maxHours[:] = [int(hour)]
     # Update hour and accumulated count
     self.hour = hour
     self.accCount = float(count)
@@ -62,7 +62,7 @@ for line in sys.stdin:
   # Load line to variables
   thisKey, thisHour, thisCount = data_mapped
   
-  if data == None:
+  if data is None:
     # Create control data if it wasn't created
     data = ControlData(thisKey, thisHour, thisCount)
   elif data.key == thisKey:
@@ -77,5 +77,5 @@ for line in sys.stdin:
     data.update(thisKey, thisHour, thisCount)
 
 # Print last key
-if data != None:
+if data is not None:
   data.printContent()
