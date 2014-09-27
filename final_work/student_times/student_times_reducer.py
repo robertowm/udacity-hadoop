@@ -20,8 +20,8 @@ class ControlData:
     self.hour = hour
     self.accCount = float(accCount)
 
-  # Update given a key, hour and its count
-  def update(self, key, hour, count):
+  # Update inner state
+  def update(self):
     # If accumulated count is bigger that max count found
     # then update max count and init the list of max hours
     if self.accCount > self.maxCount:
@@ -32,6 +32,9 @@ class ControlData:
     elif self.accCount == self.maxCount:
       self.maxHours.append(int(self.hour))
 
+  # Update inner state and prepare for current key
+  def updateAndPrepareNextKey(self, key, hour, count):
+    self.update()
     self.initKeys(key, hour, count)
 
   # Initialize internal data given new input data
@@ -69,13 +72,16 @@ for line in sys.stdin:
     # If same key and hour, accumulate count
     if data.hour == thisHour:
       data.accCount += float(thisCount)
-    # If same key but different hours, update control data 
+    # If same key but different hours, update control data and
+    #   initialize inner structure for object reuse 
     else:
-      data.update(thisKey, thisHour, thisCount)
+      data.updateAndPrepareNextKey(thisKey, thisHour, thisCount)
   else:
-    # If different keys, update control data
-    data.update(thisKey, thisHour, thisCount)
+    # If different keys, update control data and initialize inner
+    #    structure for object reuse
+    data.updateAndPrepareNextKey(thisKey, thisHour, thisCount)
 
 # Print last key
 if data is not None:
+  data.update()
   data.printContent()
